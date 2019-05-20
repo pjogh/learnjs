@@ -1,0 +1,15 @@
+.block{
+   width: 200px;
+   /* margin: auto; */
+   height: 200px;
+   border: 2px solid #000;
+   margin: 0;
+   transform: translate(-50%, -50%);
+   position: absolute;
+   top: 50%;
+   left: 50%;
+}
+.block .header{
+   height: 20px;
+   background-color: #000000;
+}
