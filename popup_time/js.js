@@ -39,10 +39,12 @@ function startTime ()
 	let input = document.getElementById('input');
 	let popup = document.getElementById('popup');
 	let button = document.getElementById('button');
+
 	button.onclick = function ()
 	{
 		input.value = time;
 	}
+
 	input.onfocus = function ()
 	{
 		popup.hidden = false;
