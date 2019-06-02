@@ -1,16 +1,16 @@
 let block = document.getElementById('block');
 let header = document.getElementById('header');
 
-header.onmousedown = function(e) {
+header.onmousedown = function(obj) {
   var coords = getCoords(header);
-  var shiftX = e.pageX - coords.left;
-  var shiftY = e.pageY - coords.top;
+  var shiftX = obj.pageX - coords.left;
+  var shiftY = obj.pageY - coords.top;
 
   block.style.position = "absolute";
   document.body.appendChild(block);
-  moveAt(e);
+  moveAt(obj);
 
-  block.style.zIndex = 1000; // над другими элементами
+  block.style.zIndex = 1000;
 
   function moveAt(e) {
     block.style.left = e.pageX - shiftX + "px";

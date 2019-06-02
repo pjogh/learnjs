@@ -18,10 +18,13 @@ button.value = 'set';
 button.id = 'button';
 popup.appendChild(button);
 
-function checkTime(i) {
-	if (i < 10) {
+function checkTime(i) 
+{
+	if (i < 10) 
+	{
 		i = "0" + i;
 	}
+
 	return i;
 }
 
@@ -40,15 +43,15 @@ function startTime ()
 	let popup = document.getElementById('popup');
 	let button = document.getElementById('button');
 
-	button.onclick = function ()
+	button.addEventListener("click", function ()
 	{
 		input.value = time;
-	}
+	});
 
-	input.onfocus = function ()
+	input.onfocus = function()
 	{
 		popup.hidden = false;
-	}
+	};
 	// input.onblur = function ()
 	// {
 	// 	popup.hidden = true;
