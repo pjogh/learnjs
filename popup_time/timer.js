@@ -5,9 +5,6 @@
  * <label id="time">17:12:34</label>
  */
 
-
-// const name = "aaa";
-
 function Timer(options)
 {
     options = options && typeof(options) === "object" ? options : {};
@@ -22,7 +19,7 @@ function Timer(options)
 
     this.popup = null;
     this.timer = null;
-console.log(this.handleDocumentClick);
+    
     this.handleDocumentClick = this.handleDocumentClick.bind(this);
     this.handleTick = this.handleTick.bind(this);
 }
@@ -70,12 +67,13 @@ Timer.prototype = {
         if (this.popup === null)
         {
             this.popup = document.createElement("div");
-            this.popup.className = "";
+            this.popup.className = "popup";
             this.timer = document.createElement("div");
-            this.timer.className = "";
+            this.timer.className = "time";
 
             this.button = document.createElement("button");
-            this.button.className = "";
+            this.button.className = "button";
+            this.button.innerHTML = "send";
             this.button.addEventListener("click", this.handleButtonClick);
 
             this.popup.appendChild(this.timer);
@@ -95,19 +93,17 @@ Timer.prototype = {
 
     handleDocumentClick: function(event)
     {
-        console.log(event);
         if (!this.getPopup().contains(event.target))
         {
             this.close();
         }
-        return 1;
-    }
+    },
 }
 
 const textbox = document.querySelector("#textbox");
 
 const timer = new Timer({
-    target: "#time",
+    target: "#textbox",
 
     onSelect: function(time) {
         console.log(name);
