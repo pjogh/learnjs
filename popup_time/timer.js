@@ -1,4 +1,3 @@
-
 /**
  *
  * <input id="textbox" placeholder="Выбрать время">
@@ -7,35 +6,13 @@
  */
 
 
-const name = "aaa";
-const timer = new Timer({
-    target: "#time"
-    onSelect: function(time) {
-        console.log(name);
-        document.querySelector("label").innerHTML = time; 
-    }
-});
-
-
-const textbox = document.querySelector("#textbox");
-
-textbox.addEventListener("click", function() {
-    timer.show();
-});
-
-textbox.addEventListener("focus", function() {
-    timer.show();
-});
-
-textbox.addEventListener("focus", function() {
-    timer.close();
-});
-
+// const name = "aaa";
 
 function Timer(options)
 {
     options = options && typeof(options) === "object" ? options : {};
     this.target = document.querySelector(options.target);
+
     if (!this.target)
     {
         throw new Error("Target is required.");
@@ -45,13 +22,12 @@ function Timer(options)
 
     this.popup = null;
     this.timer = null;
-
+console.log(this.handleDocumentClick);
     this.handleDocumentClick = this.handleDocumentClick.bind(this);
     this.handleTick = this.handleTick.bind(this);
 }
 
 Timer.prototype = {
-
     show: function()
     {
         if (!this.getPopup().parentNode)
@@ -119,9 +95,34 @@ Timer.prototype = {
 
     handleDocumentClick: function(event)
     {
+        console.log(event);
         if (!this.getPopup().contains(event.target))
         {
             this.close();
         }
+        return 1;
     }
 }
+
+const textbox = document.querySelector("#textbox");
+
+const timer = new Timer({
+    target: "#time",
+
+    onSelect: function(time) {
+        console.log(name);
+        document.querySelector("label").innerHTML = time;
+    },
+});
+
+textbox.addEventListener("click", function() {
+    timer.show();
+});
+
+textbox.addEventListener("focus", function() {
+    timer.show();
+});
+
+textbox.addEventListener("blur", function() {
+    timer.close();
+});
