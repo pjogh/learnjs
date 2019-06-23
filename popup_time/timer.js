@@ -69,7 +69,6 @@ Timer.prototype = {
             const position = this.getPosition(); 
             this.popup = document.createElement("div");
             this.popup.className = "popup";
-            // debugger;
             this.popup.style.top = position.top;
             this.popup.style.left = position.left;
             this.timer = document.createElement("div");
