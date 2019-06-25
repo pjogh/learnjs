@@ -22,6 +22,7 @@ function Timer(options)
     
     this.handleDocumentClick = this.handleDocumentClick.bind(this);
     this.handleTick = this.handleTick.bind(this);
+    this.handleButtonClick = this.handleButtonClick.bind(this);
 }
 
 Timer.prototype = {
@@ -32,16 +33,14 @@ Timer.prototype = {
             document.body.appendChild(this.getPopup());
         }
 
-        const position = this.target.getBoundingClientRect();
-
         if (this.interval)
         {
             clearInterval(this.interval);
         }
 
-        document.body.addEventListener("click", this.handleDocumentClick, true);
+        document.body.addEventListener("click", this.handleDocumentClick);
 
-        this.interval = setInterval(this.handleTick, 1000);
+        this.interval = setInterval(this.handleTick, 500);
     },
 
     close: function()
@@ -52,14 +51,30 @@ Timer.prototype = {
             this.interval = null;
         }
 
-        document.body.removeEventListener("click", this.handleDocumentClick, true);
+        document.body.removeEventListener("click", this.handleDocumentClick);
         document.body.removeChild(this.getPopup());
         this.popup = null;
     },
 
     handleTick: function()
     {
-        this.timer.textContent = "13:15:14";
+        let today = new Date();
+        let h = today.getHours();
+        let m = today.getMinutes();
+        let s = today.getSeconds();
+        m = this.checkTime(m);
+        s = this.checkTime(s);
+        this.timer.textContent = h + ':' + m + ":" + s;
+    },
+
+    checkTime: function(i)
+    {
+        if (i < 10) 
+        {
+            i = "0" + i;
+        }
+
+	    return i;
     },
 
     getPopup: function()
@@ -71,6 +86,7 @@ Timer.prototype = {
             this.popup.className = "popup";
             this.popup.style.top = position.top;
             this.popup.style.left = position.left;
+
             this.timer = document.createElement("div");
             this.timer.className = "time";
 
@@ -78,6 +94,9 @@ Timer.prototype = {
             this.button.className = "button";
             this.button.innerHTML = "send";
             this.button.addEventListener("click", this.handleButtonClick);
+            this.popup.addEventListener("click", (event) => {
+                event.stopPropagation();
+            });
 
             this.popup.appendChild(this.timer);
             this.popup.appendChild(this.button);
@@ -86,20 +105,20 @@ Timer.prototype = {
         return this.popup;
     },
 
-    handleButtonClick: function()
+    handleButtonClick: function(event)
     {
         if (this.onSelect !== null)
         {
             this.onSelect(this.timer.textContent);
+            this.close();
         }
     },
 
     handleDocumentClick: function(event)
     {
-        if (!this.getPopup().contains(event.target))
-        {
-            this.close();
-        }
+        console.log(event.target);
+
+        this.close();
     },
 
     getPosition: function()
@@ -119,12 +138,12 @@ const timer = new Timer({
     target: "#textbox",
 
     onSelect: function(time) {
-        console.log(name);
-        document.querySelector("label").innerHTML = time;
+        document.querySelector(".input").value = time;
     },
 });
 
-textbox.addEventListener("click", function() {
+textbox.addEventListener("click", function(event) {
+    event.stopPropagation();
     timer.show();
 });
 
@@ -132,6 +151,6 @@ textbox.addEventListener("focus", function() {
     timer.show();
 });
 
-textbox.addEventListener("blur", function() {
-    timer.close();
-});
+// textbox.addEventListener("blur", function() {
+//     timer.close();
+// })
