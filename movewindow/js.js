@@ -39,3 +39,20 @@ function getCoords(elem) {
   };
 }
 
+function Block (options)
+{
+  options = options && typeof(options) === "object" ? options : {};
+  this.target = document.querySelector(options.target);
+
+  if (!this.target)
+  {
+    throw new Error("Target is required.");
+  }
+}
+
+Block.prototype = {
+  move: function ()
+  {
+    
+  },
+}
