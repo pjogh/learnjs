@@ -154,3 +154,18 @@ textbox.addEventListener("focus", function() {
 // textbox.addEventListener("blur", function() {
 //     timer.close();
 // })
+
+const anchor = document.querySelector("#form-button");
+
+const newTimer = new Timer({
+    target: "#form-button",
+
+    onSelect: function(time) {
+        document.querySelector(".timeInto").textContent = time;
+    },
+});
+
+anchor.addEventListener("click", function(event) {
+    event.stopPropagation();
+    newTimer.show();
+});

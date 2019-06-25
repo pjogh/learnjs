@@ -13,3 +13,9 @@
 .input {
 	margin: 200px;
 }
+
+.anchor {
+	width: 200px;
+	margin: auto;
+	padding: 100px;
+}
