@@ -1,88 +1,88 @@
-// let block = document.getElementById('block');
-// let header = document.getElementById('header');
-
-// header.onmousedown = function(obj) {
-//   var coords = getCoords(header);
-//   var shiftX = obj.pageX - coords.left;
-//   var shiftY = obj.pageY - coords.top;
-
-//   block.style.position = "absolute";
-//   document.body.appendChild(block);
-//   moveAt(obj);
-
-//   block.style.zIndex = 1000;
-
-//   function moveAt(e) {
-//     block.style.left = e.pageX - shiftX + "px";
-    // block.style.top = e.pageY - shiftY + "px"
-
-//   document.onmousemove = function(e) {
-//     moveAt(e);
-//   };
-
-//   block.onmouseup = function() {
-//     document.onmousemove = null;
-//     block.onmouseup = null;
-//   };
-// };
-
-// block.ondragstart = function() {
-//   return false;
-// };
-
-// function getCoords(elem) {
-//   var box = elem.getBoundingClientRect();
-//   return {
-//     top: box.top + pageYOffset,
-//     left: box.left + pageXOffset
-//   };
-// }
-
 function Block (options)
 {
-  options = options && typeof(options) === "object" ? options : {};
-  this.target = options.elem;
+	options = options && typeof(options) === "object" ? options : {};
+	this.target = options.elem;
 
-  if (!this.target)
-  {
-    throw new Error("Target is required.");
-  }
+	if (!this.target)
+	{
+		throw new Error("Target is required.");
+	}
+
+	this.avatar = null;
 }
 
 Block.prototype = {
-  move: function ()
-  {
-    let coords = this.getCoords(event.target);
-    let shiftX = event.pageX - coords.left;
-    let shiftY = event.pageY - coords.top;
+	mouseDown: function (event)
+	{
+		if (event.which != 1)
+		{
+			return false;
+		}
 
-    if (!event.target.onmouseup)
-    {
-      
-    }
-    console.log(event.pageX);
-    console.log(coords.left);
-    console.log(shiftX);
-  },
+		const header = this.target.querySelector('#header');
 
-  getCoords: function (elem)
-  {
-    var box = this.target.getBoundingClientRect();
-    return {
-      top: box.top + pageYOffset,
-      left: box.left + pageXOffset
-    };
-  },
+		if (event.target != header)
+		{
+			return false;
+		}
+		
+		let coords = this.getCoords(event.target);
+		this.shiftX = event.pageX - coords.left;
+		this.shiftY = event.pageY - coords.top;
+
+		this.target.style.position = "absolute";
+		this.avatar = document.body.appendChild(this.target);
+	},
+
+	mouseMove: function (event)
+	{
+		if (!this.avatar)
+		{
+			return false;
+		}
+		
+		this.moveAt(event);
+	},
+
+	mouseUp: function ()
+	{
+		this.avatar = null;
+		
+		// this.target = removeEventListener;
+	},
+
+	getCoords: function (elem)
+	{
+		var box = this.target.getBoundingClientRect();
+		return {
+			top: box.top + pageYOffset,
+			left: box.left + pageXOffset
+		};
+	},
+
+	moveAt: function (e)
+	{
+
+			this.avatar.style.left = e.pageX - this.shiftX + "px";
+			this.avatar.style.top = e.pageY - this.shiftY + "px";
+	}
 }
 
 const block = document.querySelector('#block');
-const header = block.querySelector('#header');
 
 const el = new Block ({
-  elem: block,
-  
+	elem: block,
+	
 });
 
-header.addEventListener("mousedown", function(){
-  el.move();
+block.addEventListener("mousedown", function(){
+	el.mouseDown(event);
+});
+
+document.addEventListener("mousemove", function(){
+	el.mouseMove(event);
+});
+
+document.addEventListener("mouseup", function(){
+	el.mouseUp();
 });
